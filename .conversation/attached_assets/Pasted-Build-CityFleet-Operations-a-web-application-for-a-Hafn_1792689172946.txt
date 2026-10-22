@@ -1,0 +1,88 @@
+Build “CityFleet Operations,” a web application for a Hafnia Hackathon 2026 prototype.
+
+Purpose
+Turn camera-detected obstructions into operator-approved temporary exclusion zones for municipal maintenance AMRs. Identify affected missions, submit restrictions through fleet-management adapters, and track robot application.
+
+Development scope
+Build the frontend first. Use React, TypeScript, and Vite.
+
+The future backend will use Python and FastAPI. Do not substitute a Node/Express backend or introduce a database, authentication service, MQTT broker, or live integrations at this stage.
+
+Organize the project with frontend/ and docs/ directories. Document the future FastAPI integration in docs/backend-contract.md. Keep mock services replaceable by an HTTP API client.
+
+Interface
+Create a polished operations dashboard centered on Aarhus, Denmark.
+
+Include:
+- A large Google Maps road/satellite map.
+- Robot positions, camera markers, maintenance routes, and service areas.
+- Editable GeoJSON polygons: amber for proposed restrictions and red for approved restrictions.
+- Distinct visual indicators for restrictions awaiting application versus confirmed applied.
+- A linked Google Street View panel when an incident is selected, with a fallback when coverage is unavailable.
+- Incident feed, evidence placeholder, affected missions, fleet status, and dispatch history.
+- Filters, timestamps, approval controls, and clear loading/error/empty states.
+
+Street View provides location context. Show restriction boundaries on the overhead map rather than attempting to paint polygons onto Street View imagery.
+
+Workflow
+1. Simulate an obstruction observation.
+2. Associate it with a geographic polygon and robot mapId.
+3. Identify missions whose remaining routes or service areas intersect it.
+4. Let the operator inspect evidence, edit the boundary, and approve or reject.
+5. Submit approved restrictions to a simulated fleet-management adapter.
+6. Track fleet acceptance separately from individual robot application.
+7. Require operator review before clearing restrictions and dispatching the revised state.
+
+Fleet integration
+Design for future VDA 5050 integration without claiming verified compliance.
+
+Our application submits restrictions to fleet management. Fleet management remains responsible for robot orders and zone distribution.
+
+Provide fictional fleet profiles:
+- VDA 5050 3.0 with declared BLOCKED-zone and zone-set activation support.
+- A legacy profile using fleet-specific route restrictions or mission pause requests.
+
+Show protocol version, capabilities, connectivity, and map-alignment status. Disable unsupported operations.
+
+Keep geographic coordinates separate from robot-map coordinates. Require configured alignment before simulated dispatch. For the demo, use an explicitly labeled predefined alignment.
+
+Optionally show illustrative adapter payload previews, clearly labeled as unvalidated examples. Assign a new zoneSetId whenever zone-set contents change.
+
+State behavior
+Approval:
+Proposed → Under review → Approved or Rejected
+
+Delivery, per recipient:
+Not sent → Sending → Fleet accepted → Robot applied
+
+Support failed, rejected, timed-out, unsupported, and partially applied outcomes.
+
+Never treat approval as delivery, fleet acceptance as robot application, or message submission as successful replanning.
+
+Keep overdue restrictions active and mark them “Review overdue.” Do not automatically reopen areas.
+
+Demonstration
+A “Simulate obstruction” button creates a construction-barrier incident affecting two missions.
+
+Allow approval, then simulate:
+- One robot successfully applying the restriction and adopting a predefined alternative route.
+- Another robot rejecting or delaying application.
+- A partial-application state and explicit retry.
+- Reviewed clearance with its own delivery and acknowledgement cycle.
+
+Clearly label all footage, fleet responses, robot movement, and rerouting as simulated. Use fictional fleet names.
+
+Implementation
+- Use typed models and reusable components.
+- Persist demo state in localStorage.
+- Include a reset-demo button.
+- Keep incident, mission, restriction, and dispatch logic behind service interfaces.
+- Document proposed FastAPI endpoints and request/response models.
+- Make the future backend URL configurable.
+- Do not connect to XProtect, Hafnia, real robots, or MQTT yet.
+- Do not include XProtect or Hafnia credentials in frontend code.
+- Support a domain-restricted Google Maps browser key and a useful missing-key fallback.
+- Configure Replit’s Run action to launch the frontend preview.
+- Include local setup instructions so the code also runs outside Replit.
+
+Verify the complete simulated workflow and clearly distinguish implemented features from future integrations.

@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Smart City RoboOps"
+description = "A municipal operations dashboard for autonomous mobile robots performing outdoor groundskeeping and sanitation of paved public spaces. Operators review camera-detected obstructions, manage temporary service restrictions, identify affected missions, and track simulated delivery and application across fictional fleets."
+version = "1.0.0"
+id = "artifacts/smart-city-roboops"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24016
+
+[services.development]
+run = "pnpm --filter @workspace/smart-city-roboops run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/smart-city-roboops", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/smart-city-roboops/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24016"
+BASE_PATH = "/"

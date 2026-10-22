@@ -1,44 +1,48 @@
-# [Project name]
+# Smart City RoboOps
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An operations dashboard for municipal autonomous mobile robots (AMRs) performing outdoor groundskeeping and sanitary maintenance of paved public spaces.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/smart-city-roboops run dev` — run the frontend preview
+- `pnpm --filter @workspace/smart-city-roboops run typecheck` — check the app's TypeScript
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Optional env: `VITE_GOOGLE_MAPS_API_KEY` — domain-restricted browser key for Google road/satellite maps; the app must remain useful without it.
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React + Vite
+- Current prototype: simulated operations with localStorage persistence; no app backend, database, authentication, MQTT, or live robot/fleet integrations.
+- Future backend: Python + FastAPI, described in `artifacts/smart-city-roboops/docs/backend-contract.md`.
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/smart-city-roboops/` — Smart City RoboOps web app
+- `artifacts/smart-city-roboops/frontend/` — frontend code and operation services
+- `artifacts/smart-city-roboops/docs/backend-contract.md` — proposed future FastAPI contract and local setup notes
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Approval, fleet acceptance, and per-robot application are separate states.
+- Geographic coordinates and robot map coordinates remain separate; simulated dispatch is blocked until the labeled demo alignment is configured.
+- VDA 5050 is a future adapter target only; the prototype makes no verified-compliance claim.
+- Restriction clearance requires operator review and its own delivery/acknowledgement cycle; overdue restrictions remain active.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Operators review simulated obstruction observations, edit proposed GeoJSON exclusion zones, see affected missions, approve or reject restrictions, and track fictional fleet/robot delivery outcomes. All robot movement, footage, fleet responses, and rerouting are simulated.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Use the product name “Smart City RoboOps”; do not call the dashboard “CityFleet Operations.”
+- In this project, AMR means autonomous mobile robot.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Google Maps is optional; do not make a key a prerequisite for running or using the prototype.
+- Never imply that approval means delivery, fleet acceptance means robot application, or message submission means successful replanning.
+- Do not connect this prototype to XProtect, Hafnia, real robots, or MQTT.
 
 ## Pointers
 
