@@ -3,16 +3,22 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "preinstall": "node scripts/ensure-pnpm.mjs",
+    "build": "pnpm run typecheck && pnpm run build:app",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
+    "dev": "node scripts/dev.mjs",
+    "build:app": "pnpm --filter @workspace/smart-city-roboops run build",
+    "start": "uv run --no-project --directory backend --with-requirements requirements.txt python -m app.serve",
+    "test:e2e": "playwright test",
+    "test:backend": "uv run --no-project --directory backend --with-requirements requirements.txt python -m pytest -q"
   },
   "private": true,
   "dependencies": {
     "@replit/connectors-sdk": "^0.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "1.56.1",
     "prettier": "^3.9.10",
     "typescript": "~5.9.3"
   }

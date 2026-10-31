@@ -53,3 +53,26 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local service configuration and operational data
+.env
+.env.*
+!.env.example
+__pycache__/
+.pytest_cache/
+.venv/
+backend/data/
+backend/camera-zones.json
+playwright-report/
+test-results/
+
+# Hackathon-provided kit: keep local, never publish with this application.
+[Hh]ackathon[Kk]it/
+[Hh]ackathon[Kk]it*.zip
+
+# Local assistant context and private credential/certificate files
+.conversation/
+*.pem
+*.key
+*.pfx
+*.p12

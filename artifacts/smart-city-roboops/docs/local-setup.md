@@ -1,33 +1,10 @@
-# Smart City RoboOps · local demo
+# Local setup
 
-Smart City RoboOps is a frontend-only operator cockpit for a simulated municipal operation. The interface models autonomous mobile robots performing outdoor groundskeeping and sanitary maintenance of paved public spaces. No backend, database, authentication, camera service, fleet connection, robot, MQTT broker, XProtect or Hafnia service is included.
+See the repository-root `README.md` for current instructions. This project now has a Python/FastAPI backend; the older frontend-only/localStorage setup has been replaced.
 
-## Run locally
-
-From the workspace root:
-
-```sh
-pnpm install
-pnpm --filter @workspace/smart-city-roboops run dev
-```
-
-`VITE_GOOGLE_MAPS_API_KEY` is optional. Without it the app renders its interactive Aarhus demo map, with mission routes, service context and restriction polygons. To enable Google Maps road/satellite tiles and the optional Street View link, create a browser key restricted by HTTP referrer to the development and deployment domains, then set:
-
-```sh
-VITE_GOOGLE_MAPS_API_KEY=your-domain-restricted-browser-key
-```
-
-Restart Vite after changing the environment. Key absence or Google Maps load failure does not prevent the app from running.
-
-`VITE_API_BASE_URL` is an optional future HTTP-client setting (defaults to `/api`). It does not switch the app away from its local mock services.
-
-All demo state is stored in browser `localStorage`; use **Reset demo** to restore the initial record. Simulated observation, fleet response, footage and robot movement are not connected to real systems.
-
-The app defaults to port `5173` and root path `/` when `PORT` and `BASE_PATH` are not supplied, so the same command works outside Replit.
-
-## Demo model notes
-
-- Geographic coordinates (latitude/longitude) are separate from each robot's fleet `mapId` coordinate space. Dispatch is gated by the demo's explicitly predefined alignment.
-- Approval, fleet acceptance, robot application, and route replan are separate events.
-- GeoJSON Polygon coordinates use `[longitude, latitude]`. Each edit creates a new zone-set ID.
-- VDA 5050 3.0 is represented as a fictional adapter target and is not a verified compliance claim.
+- Windows on this checkout: `powershell -ExecutionPolicy Bypass -File scripts/start-local.ps1`.
+- Standard environment: install dependencies with `pnpm install --frozen-lockfile`, then `pnpm dev`.
+- Dashboard: http://localhost:5173; API docs: http://127.0.0.1:8000/docs.
+- Built single-process app: `pnpm build:app`, then `pnpm start`, at http://127.0.0.1:8000.
+- Optional browser configuration: `.env` beside the frontend package; optional server configuration: `backend/.env`.
+- XProtect and Hafnia setup, camera-zone mapping, optional event poller, tests and deployment limits are documented in the root README.

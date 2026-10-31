@@ -3,3 +3,19 @@
 .map-center-reset:hover{color:#347d6b}
 .map-toggle button:disabled{cursor:not-allowed;opacity:.42}
 @media(max-width:700px){.map-center-reset{right:8px;bottom:43px}}
+.form-label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:600;color:#4a605a;margin:14px 0}
+.form-label input,.form-label select,.form-label textarea{width:100%;padding:10px;border:1px solid #ced8d1;border-radius:5px;background:#fff;color:#24382f;font:inherit}
+.form-label textarea{min-height:85px;resize:vertical}
+.integration-panel .profile-grid{margin-top:22px}.integration-panel p,.profile-card p{font-size:13px;line-height:1.65;color:#52665d}
+.integration-hint{display:block;color:#61776a;margin:12px 0}
+.integration-actions,.recipient-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.integration-output{padding:16px;background:#f1f5f1;color:#284339;max-height:340px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;border-radius:6px;margin:14px 0}
+.analysis-preview{display:block;max-height:300px;width:100%;object-fit:contain;background:#e7eee9;margin:12px 0;border-radius:6px}
+.street-panorama{height:230px;width:100%;border-radius:6px;background:#e7eee9}.street-context p,.observation-note{font-size:12px;line-height:1.65;color:#52665d;margin:12px 0}
+.connection-banner{padding:14px;background:#fff3d9;border:1px solid #ecd7a7;color:#79612e;border-radius:6px;margin-bottom:18px;font-size:13px}
+.request-indicator{position:fixed;bottom:20px;right:20px;padding:10px 16px;background:#234c3f;color:white;border-radius:6px;z-index:60;font-size:12px}
+button:disabled{opacity:.5;cursor:not-allowed}.delivery-recipient small{display:block;margin-top:8px;color:#52665d}.detail-side .button{white-space:normal}
+.review-card p{font-size:12px;color:#52665d;line-height:1.6;margin-top:12px}.detail-main details{margin:20px 0}.detail-main summary{cursor:pointer;padding:12px;font-weight:600;font-size:12px}
+.editor-wrap textarea{min-height:230px;width:100%;font:12px monospace}.route-card p{font-size:12px;line-height:1.7;color:#52665d;margin-top:12px}
+.map-status-row{font-size:11px;line-height:1.6}.geo-summary{flex-wrap:wrap}.detail-head h2{overflow-wrap:anywhere}
+@media(max-width:800px){.detail-columns{display:flex;flex-direction:column}.detail-main,.detail-side{width:100%;min-width:0}.profile-grid{grid-template-columns:1fr!important}.heading-actions{flex-wrap:wrap}.topbar-right .demo-pill{display:none}}

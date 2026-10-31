@@ -1,0 +1,199 @@
+{
+  "robots": [
+    {
+      "id": "Moss-03",
+      "name": "Moss-03",
+      "profile": "VDA 5050 3.0 demo adapter",
+      "mapId": "aarhus_mid-01",
+      "position": {
+        "lat": 56.1609,
+        "lng": 10.213
+      },
+      "connectivity": "Connected",
+      "battery": 82,
+      "capabilities": ["BLOCKED zone", "Zone-set activation"],
+      "alignment": "Aligned · predefined demo transform"
+    },
+    {
+      "id": "Birk-07",
+      "name": "Birk-07",
+      "profile": "Legacy municipal adapter",
+      "mapId": "aarhus_mid-legacy",
+      "position": {
+        "lat": 56.1598,
+        "lng": 10.2094
+      },
+      "connectivity": "Intermittent",
+      "battery": 61,
+      "capabilities": ["Fleet-specific route restriction", "Mission pause"],
+      "alignment": "Aligned · predefined demo transform"
+    },
+    {
+      "id": "Lime-02",
+      "name": "Lime-02",
+      "profile": "Legacy municipal adapter",
+      "mapId": "aarhus_mid-legacy",
+      "position": {
+        "lat": 56.162,
+        "lng": 10.2084
+      },
+      "connectivity": "Connected",
+      "battery": 94,
+      "capabilities": ["Mission pause"],
+      "alignment": "Not aligned"
+    }
+  ],
+  "missions": [
+    {
+      "id": "MIS-118",
+      "name": "Canal promenade sweep",
+      "robot": "Moss-03",
+      "area": "Indre By · waterfront",
+      "progress": 20,
+      "status": "In progress",
+      "color": "#318c77",
+      "points": [
+        {
+          "lat": 56.1621,
+          "lng": 10.2085
+        },
+        {
+          "lat": 56.1612,
+          "lng": 10.2096
+        },
+        {
+          "lat": 56.1604,
+          "lng": 10.2102
+        },
+        {
+          "lat": 56.1601,
+          "lng": 10.2127
+        }
+      ],
+      "alternative": [
+        {
+          "lat": 56.1621,
+          "lng": 10.2085
+        },
+        {
+          "lat": 56.1618,
+          "lng": 10.2104
+        },
+        {
+          "lat": 56.1613,
+          "lng": 10.212
+        },
+        {
+          "lat": 56.1601,
+          "lng": 10.2127
+        }
+      ]
+    },
+    {
+      "id": "MIS-121",
+      "name": "Plaza washdown",
+      "robot": "Birk-07",
+      "area": "Dokk1 · south apron",
+      "progress": 15,
+      "status": "In progress",
+      "color": "#d99b2b",
+      "points": [
+        {
+          "lat": 56.1594,
+          "lng": 10.2083
+        },
+        {
+          "lat": 56.1597,
+          "lng": 10.2096
+        },
+        {
+          "lat": 56.1604,
+          "lng": 10.2102
+        },
+        {
+          "lat": 56.1613,
+          "lng": 10.2127
+        }
+      ]
+    },
+    {
+      "id": "MIS-126",
+      "name": "Park edge litter patrol",
+      "robot": "Lime-02",
+      "area": "Mølleparken",
+      "progress": 21,
+      "status": "In progress",
+      "color": "#87949c",
+      "points": [
+        {
+          "lat": 56.1631,
+          "lng": 10.207
+        },
+        {
+          "lat": 56.1625,
+          "lng": 10.2084
+        },
+        {
+          "lat": 56.1622,
+          "lng": 10.21
+        }
+      ]
+    }
+  ],
+  "serviceAreas": [
+    [
+      {
+        "lat": 56.1624,
+        "lng": 10.2077
+      },
+      {
+        "lat": 56.163,
+        "lng": 10.2095
+      },
+      {
+        "lat": 56.1618,
+        "lng": 10.2101
+      },
+      {
+        "lat": 56.1609,
+        "lng": 10.209
+      }
+    ],
+    [
+      {
+        "lat": 56.1612,
+        "lng": 10.2108
+      },
+      {
+        "lat": 56.1617,
+        "lng": 10.213
+      },
+      {
+        "lat": 56.1592,
+        "lng": 10.2131
+      },
+      {
+        "lat": 56.1593,
+        "lng": 10.2106
+      }
+    ],
+    [
+      {
+        "lat": 56.1635,
+        "lng": 10.2067
+      },
+      {
+        "lat": 56.1642,
+        "lng": 10.2085
+      },
+      {
+        "lat": 56.1628,
+        "lng": 10.2094
+      },
+      {
+        "lat": 56.1622,
+        "lng": 10.2075
+      }
+    ]
+  ]
+}

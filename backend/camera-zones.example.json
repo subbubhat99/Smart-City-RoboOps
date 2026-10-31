@@ -1,0 +1,12 @@
+{
+  "REPLACE_WITH_REAL_XPROTECT_CAMERA_GUID": {
+    "label": "Example camera zone — replace with surveyed geometry",
+    "mapId": "REPLACE_WITH_SURVEYED_SITE_MAP_ID",
+    "polygon": [
+      { "lat": 56.16025, "lng": 10.20995 },
+      { "lat": 56.16065, "lng": 10.21045 },
+      { "lat": 56.16045, "lng": 10.21095 },
+      { "lat": 56.16005, "lng": 10.21055 }
+    ]
+  }
+}

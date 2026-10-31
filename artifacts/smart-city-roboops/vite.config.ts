@@ -55,15 +55,18 @@ export default defineConfig({
   server: {
     port,
     strictPort: true,
-    host: '0.0.0.0',
+    host: process.env.REPL_ID ? '0.0.0.0' : '127.0.0.1',
     allowedHosts: true,
     fs: {
       strict: true,
     },
+    proxy: {
+      '/api': { target: process.env.ROBOOPS_BACKEND_URL || 'http://127.0.0.1:8000', changeOrigin: true },
+    },
   },
   preview: {
     port,
-    host: '0.0.0.0',
+    host: process.env.REPL_ID ? '0.0.0.0' : '127.0.0.1',
     allowedHosts: true,
   },
 });

@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-24", "python-3.12"]
 
 [deployment]
 router = "application"
@@ -10,6 +10,15 @@ env = { "CI" = "true" }
 
 [workflows]
 runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm dev"
+waitForPort = 5173
 
 [agent]
 stack = "PNPM_WORKSPACE"
