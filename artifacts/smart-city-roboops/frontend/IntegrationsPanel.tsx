@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getToken, request, setToken } from "./services";
+import { HafniaGatewayPanel } from "./HafniaGatewayPanel";
 
 type Status = {
   obstructionEventImportConfigured: boolean;
@@ -47,9 +48,9 @@ export function IntegrationsPanel({ onRefresh }: { onRefresh: () => void }) {
       </div>
       <p className="page-intro">
         The Python service connects to your private developer environment.
-        Configure URLs, credentials, certificates, and surveyed camera zones in
-        backend/.env. Connection status below means configured, not verified
-        reachable.
+        Configure credentials in the backend process environment and camera
+        zones in backend/camera-zones.json. Connection status below means
+        configured, not verified reachable.
       </p>
       <label className="form-label">
         Operator session token
@@ -78,6 +79,7 @@ export function IntegrationsPanel({ onRefresh }: { onRefresh: () => void }) {
         Token stays in this tab's session storage. Provider credentials belong
         on the server.
       </small>
+      <HafniaGatewayPanel onRefresh={onRefresh} />
       <div className="profile-grid">
         <article className="profile-card">
           <h3>XProtect VMS</h3>
@@ -128,7 +130,7 @@ export function IntegrationsPanel({ onRefresh }: { onRefresh: () => void }) {
           </p>
         </article>
         <article className="profile-card">
-          <h3>Hafnia analysis</h3>
+          <h3>Optional image endpoint · not the VM gateway</h3>
           <p>
             {status?.hafnia.configured
               ? "Endpoint profile configured · unverified"

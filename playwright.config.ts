@@ -15,7 +15,7 @@ export default defineConfig({
   },
   webServer: {
     command:
-      "uv run --no-project --directory backend --with-requirements requirements.txt uvicorn app.main:app --host 127.0.0.1 --port 8765",
+      "uv run --python 3.12 --no-project --directory backend --with-requirements requirements.txt uvicorn app.main:app --host 127.0.0.1 --port 8765",
     url: "http://127.0.0.1:8765/api/health",
     env: {
       ROBOOPS_DATABASE: path.resolve("backend/data/browser-tests.sqlite3"),

@@ -25,6 +25,10 @@ class Settings:
     hafnia_url: str = field(default_factory=lambda: os.getenv('HAFNIA_CHAT_COMPLETIONS_URL', ''))
     hafnia_key: str = field(default_factory=lambda: os.getenv('HAFNIA_API_KEY', ''))
     hafnia_model: str = field(default_factory=lambda: os.getenv('HAFNIA_MODEL', ''))
+    gateway_user: str = field(default_factory=lambda: os.getenv('HAFNIA_GW_USER', 'administrator'))
+    gateway_password: str = field(default_factory=lambda: os.getenv('HAFNIA_GW_PASSWORD', ''))
+    gateway_self_signed: bool = field(default_factory=lambda: os.getenv('HAFNIA_GW_ALLOW_SELF_SIGNED', '').lower() == 'true')
+    gateway_daily_limit: int = field(default_factory=lambda: int(os.getenv('ROBOOPS_ANALYSIS_DAILY_LIMIT', '20')))
     webhook_token: str = field(default_factory=lambda: os.getenv('HAFNIA_WEBHOOK_TOKEN', ''))
     camera_zones_path: str = field(default_factory=lambda: os.getenv('ROBOOPS_CAMERA_ZONES', str(ROOT / 'camera-zones.json')))
 

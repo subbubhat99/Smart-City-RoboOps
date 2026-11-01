@@ -17,7 +17,7 @@ export type DeliveryStatus =
 export type Point = { lat: number; lng: number };
 export type Restriction = {
   revision: number;
-  source: "simulation" | "hafnia-plugin" | "hafnia-image" | "xprotect-event";
+  source: "simulation" | "hafnia-plugin" | "hafnia-image" | "hafnia-gateway" | "xprotect-event";
   cameraId: string;
   evidenceDataUrl?: string | null;
   xprotectEventPublished: boolean;

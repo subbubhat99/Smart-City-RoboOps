@@ -9,7 +9,8 @@ Municipal robot operations dashboard with a React frontend and a Python/FastAPI 
 - SQLite persistence, geometric intersection against remaining mission paths, revision checks, self-intersection validation, and explicit partial/failure outcomes.
 - Independent fleet acceptance, robot application, and replan confirmation. Clearance remains pending until each required recipient applies it. Review deadlines never reopen zones.
 - Server-side XProtect Basic-user authentication, camera/event queries, configured obstruction-event ingestion, and explicit publication of approved real observations as XProtect events.
-- Normalized authenticated analysis webhook, plus a configurable OpenAI-compatible image-analysis adapter for Hafnia. The endpoint/profile must be checked against your supplied developer documentation.
+- VM-local Hafnia gateway video-summary adapter: saved-prompt lookup, asynchronous clip submission, persistent job IDs, result refresh/import, and deduplicated proposed incidents. This is implemented and tested with mocked gateway responses; live validation requires the assigned VM. See [VM gateway setup](docs/gateway-vm.md).
+- Normalized authenticated analysis webhook, plus a separate optional OpenAI-compatible image adapter. The latter is not the hackathon VM gateway.
 - Fleet delivery remains simulated. VDA 5050 is an integration target, not verified compliance. No MQTT commands or live robot controls are enabled.
 
 ## Start on this Windows machine
@@ -23,7 +24,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\start-local.ps1
 
 Open http://localhost:5173. FastAPI listens at http://127.0.0.1:8000 and Vite proxies `/api` to it. API documentation is at http://127.0.0.1:8000/docs. Stop both with Ctrl+C.
 
-On another machine, install Node.js 24, pnpm 10, Python 3.11+, and uv, then:
+On another machine, install Node.js 24, pnpm 10, Python 3.12, and uv, then:
 
 ```sh
 pnpm install --frozen-lockfile

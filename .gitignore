@@ -76,3 +76,4 @@ test-results/
 *.key
 *.pfx
 *.p12
+.gateway-update-backups/

@@ -29,6 +29,8 @@ process.on("SIGINT", () => shutdown());
 process.on("SIGTERM", () => shutdown());
 launch("uv", [
   "run",
+  "--python",
+  "3.12",
   "--no-project",
   "--directory",
   "backend",

@@ -115,3 +115,93 @@ test("desktop overview screenshot", async ({ page }) => {
     fullPage: true,
   });
 });
+
+test("gateway imports existing evidence without submitting another analysis", async ({
+  page,
+}) => {
+  let submissions = 0;
+  const summaryId = "33333333-3333-4333-8333-333333333333";
+  const job = {
+    id: "VLM-import",
+    cameraId: "11111111-1111-4111-8111-111111111111",
+    summaryId,
+    progress: "Completed",
+    startTime: "2026-11-01T09:00:00Z",
+    endTime: "2026-11-01T09:00:30Z",
+    response: "OBSTRUCTION_CONFIRMED.",
+    message: "Proposed incident created; operator review required.",
+    incidentId: "OBS-import",
+  };
+  await page.route("**/api/v1/hafnia/gateway/jobs", async (route) => {
+    if (route.request().method() === "POST") submissions++;
+    await route.fulfill({ json: { jobs: [] } });
+  });
+  await page.route("**/api/v1/hafnia/gateway/import", async (route) => {
+    expect(route.request().postDataJSON()).toEqual({ summaryId });
+    await page.route("**/api/v1/hafnia/gateway/jobs", (r) =>
+      r.fulfill({ json: { jobs: [job] } }),
+    );
+    await route.fulfill({ json: job });
+  });
+  await page.getByTestId("nav-Connections").click();
+  await page.getByLabel("Existing summary ID").fill(summaryId);
+  await page.getByRole("button", { name: "Import existing result" }).click();
+  await expect(
+    page.getByText("OBSTRUCTION_CONFIRMED.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Proposed incident created; operator review required."),
+  ).toBeVisible();
+  expect(submissions).toBe(0);
+});
+
+test("gateway clip submission requires consent and sends the selected prompt with UTC times", async ({
+  page,
+}) => {
+  const cameraId = "11111111-1111-4111-8111-111111111111";
+  const promptId = "22222222-2222-4222-8222-222222222222";
+  let sent: Record<string, string> | undefined;
+  await page.route("**/api/v1/xprotect/cameras", (r) =>
+    r.fulfill({ json: { array: [{ id: cameraId, name: "Scooter" }] } }),
+  );
+  await page.route("**/api/v1/hafnia/gateway/prompts", (r) =>
+    r.fulfill({
+      json: {
+        prompts: [{ id: promptId, title: "Obstruction prompt" }],
+        totalCount: 1,
+      },
+    }),
+  );
+  await page.route("**/api/v1/hafnia/gateway/jobs", async (route) => {
+    if (route.request().method() === "POST") {
+      sent = route.request().postDataJSON();
+      await route.fulfill({ json: { id: "VLM-test", progress: "NotStarted" } });
+    } else await route.fulfill({ json: { jobs: [] } });
+  });
+  await page.getByTestId("nav-Connections").click();
+  await page.getByRole("button", { name: "Load XProtect cameras" }).click();
+  await page
+    .getByRole("combobox", { name: "XProtect camera", exact: true })
+    .selectOption(cameraId);
+  await page
+    .getByRole("button", { name: "Load saved gateway prompts" })
+    .click();
+  await page
+    .getByRole("combobox", { name: "Saved gateway prompt" })
+    .selectOption(promptId);
+  await page.getByLabel("Clip start (UTC)").fill("2026-11-01T09:00");
+  await page.getByLabel("Clip end (UTC)").fill("2026-11-01T09:01");
+  const submit = page.getByRole("button", { name: "Analyze recorded clip" });
+  await expect(submit).toBeDisabled();
+  await page
+    .getByRole("checkbox", { name: "I intend to submit one new clip analysis" })
+    .check();
+  await submit.click();
+  await expect(submit).toBeDisabled();
+  expect(sent).toMatchObject({
+    cameraId,
+    promptId,
+    startTime: "2026-11-01T09:00:00.000Z",
+    endTime: "2026-11-01T09:01:00.000Z",
+  });
+});

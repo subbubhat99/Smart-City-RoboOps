@@ -12,6 +12,8 @@ from .config import Settings
 from .connectors import Connectors
 from .operations import apply_action, check_revision, edit_boundary, find, initial_state, new_incident, now, record
 from .store import Store
+from .gateway import Gateway
+from .gateway_routes import install_gateway_routes
 
 
 class StrictModel(BaseModel):
@@ -54,6 +56,7 @@ def create_app(settings=None, transport=None):
     settings = settings or Settings()
     store = Store(settings.database, initial_state)
     connectors = Connectors(settings, transport)
+    gateway = Gateway(settings, transport)
     app = FastAPI(title='Smart City RoboOps', version='1.0.0')
     app.state.store, app.state.connectors, app.state.settings = store, connectors, settings
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=['GET', 'POST', 'PATCH'], allow_headers=['Authorization', 'Content-Type'])
@@ -74,6 +77,8 @@ def create_app(settings=None, transport=None):
     def integration_status():
         return {'xprotect': {'configured': bool(settings.xprotect_url and settings.xprotect_token_url and settings.xprotect_username and settings.xprotect_password), 'eventPublishingConfigured': bool(settings.xprotect_event_type)},
                 'hafnia': {'configured': bool(settings.hafnia_url and settings.hafnia_key and settings.hafnia_model), 'profile': 'OpenAI-compatible image analysis; verify with environment documentation', 'webhookConfigured': bool(settings.webhook_token)},
+                'gateway': {'configured': bool(settings.gateway_password), 'dailySubmissionLimit': settings.gateway_daily_limit,
+                            'profile': 'VM-local Hafnia video summaries; configured does not mean connected'},
                 'cameraZones': [{'cameraId': k, 'mapId': v.get('mapId', ''), 'label': v.get('label', k)} for k, v in settings.camera_zones().items()],
                 'obstructionEventImportConfigured': bool(settings.obstruction_event_types), 'fleetMode': 'simulated', 'liveFleetConfigured': False}
 
@@ -100,9 +105,11 @@ def create_app(settings=None, transport=None):
         with store.transaction() as state:
             # Real observations are retained even when resetting the fictional fleet demo.
             real = [r for r in state['restrictions'] if r['source'] != 'simulation']
+            jobs = state.get('hafniaJobs', [])
             state.clear()
             state.update(initial_state())
             state['restrictions'].extend(real)
+            state['hafniaJobs'] = jobs
         return dashboard()
 
     @app.get('/api/v1/incidents/{incident_id}', dependencies=auth)
@@ -228,6 +235,8 @@ def create_app(settings=None, transport=None):
         result = connectors.analyze(body.imageDataUrl)
         observation = Observation(cameraId=body.cameraId, externalId=uid('ANALYSIS'), **result)
         return {**ingest(observation, 'hafnia-image', body.imageDataUrl), 'analysis': result}
+
+    install_gateway_routes(app, settings, store, gateway, auth, ingest, Observation)
 
     # Optional single-process deployment: build the frontend first.
     public = Path(__file__).resolve().parents[2] / 'artifacts/smart-city-roboops/dist/public'
